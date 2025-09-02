@@ -1,0 +1,142 @@
+# This is the configuration file for Ghostty.
+#
+# This template file has been automatically created at the following
+# path since Ghostty couldn't find any existing config files on your system:
+#
+#   /home/mahesh/.config/ghostty/config
+#
+# The template does not set any default options, since Ghostty ships
+# with sensible defaults for all options. Users should only need to set
+# options that they want to change from the default.
+#
+# Run `ghostty +show-config --default --docs` to view a list of
+# all available config options and their default values.
+#
+# Additionally, each config option is also explained in detail
+# on Ghostty's website, at https://ghostty.org/docs/config.
+#
+# Ghostty can reload the configuration while running by using the menu
+# options or the bound key (default: Command + Shift + comma on macOS and
+# Control + Shift + comma on other platforms). Not all config options can be
+# reloaded while running; some only apply to new windows and others may require
+# a full restart to take effect.
+
+# Config syntax crash course
+# ==========================
+# # The config file consists of simple key-value pairs,
+# # separated by equals signs.
+# font-family = Iosevka
+# window-padding-x = 2
+#
+# # Spacing around the equals sign does not matter.
+# # All of these are identical:
+# key=value
+# key= value
+# key =value
+# key = value
+#
+# # Any line beginning with a # is a comment. It's not possible to put
+# # a comment after a config option, since it would be interpreted as a
+# # part of the value. For example, this will have a value of "#123abc":
+# background = #123abc
+#
+# # Empty values are used to reset config keys to default.
+# key =
+#
+# # Some config options have unique syntaxes for their value,
+# # which is explained in the docs for that config option.
+# # Just for example:
+# resize-overlay-duration = 4s 200ms
+
+# background-opacity = -0.4    
+# background = 282c34
+# foreground = ffffff
+# font-family = Hack Nerd Font Mono
+
+# #------------------------------------------------
+# # Keybindings
+# # -----------------------------------------------
+# keybind = ctrl+alt+r=reload_config
+# keybind = ctrl+alt+up=new_split:up
+# keybind = ctrl+alt+down=new_split:down
+# keybind = ctrl+alt+left=new_split:left
+# keybind = ctrl+alt+right=new_split:right
+
+# keybind = ctrl+z=close_surface
+
+# This is the configuration file for Ghostty.
+#
+# A "hacking" inspired Ghostty configuration with a dark, cyberpunk
+# aesthetic and efficient keybindings.
+
+# --- "Hacking" inspired theme ---
+# Dark background, bright "Matrix" green text.
+background-opacity = 0.95
+background = 0a0e13
+foreground = 00ff00
+selection-background = 004400
+selection-foreground = 00ff00
+
+font-family = Fira Code Nerd Font Mono
+font-size = 11
+
+window-padding-x = 5
+window-padding-y = 5
+
+# --- Keybindings for efficiency and split-screen workflow ---
+# These bindings are designed for quick and intuitive window management.
+# The problematic keybindings that caused errors have been commented out.
+
+# Reload config with a simple, memorable combination.
+keybind = ctrl+alt+r=reload_config
+
+# Split windows for multi-tasking and monitoring.
+# Using `ctrl+shift` for a distinct key combination.
+keybind = ctrl+shift+up=new_split:up
+keybind = ctrl+shift+down=new_split:down
+keybind = ctrl+shift+left=new_split:left
+keybind = ctrl+shift+right=new_split:right
+
+# Navigate between splits.
+# The action for moving focus might be different in your version.
+# Let's try `move_split_focus` which is a common alternative to `focus_split`.
+# If this doesn't work, we'll have to use Ghostty's own documentation.
+# keybind = ctrl+alt+up=move_split_focus:up
+# keybind = ctrl+alt+down=move_split_focus:down
+# keybind = ctrl+alt+left=move_split_focus:left
+# keybind = ctrl+alt+right=move_split_focus:right
+keybind = ctrl+alt+up=goto_split:up
+keybind = ctrl+alt+down=goto_split:down
+keybind = ctrl+alt+left=goto_split:left
+keybind = ctrl+alt+right=goto_split:right
+
+# Resize splits.
+# These lines caused an error. It's best to remove or comment them out until
+# you can verify the correct action name and format from Ghostty's documentation.
+# For many terminals, resizing is done with a combination of a keybind and
+# mouse drag, or with specific, non-obvious key actions.
+# keybind = ctrl+shift+w=resize_split:width
+# keybind = ctrl+shift+h=resize_split:height
+
+# Close the current pane.
+keybind = ctrl+q=close_surface
+
+# Clear the screen.
+keybind = ctrl+l=clear_screen
+
+# Scroll through history.
+keybind = shift+page_up=scroll_page_up
+keybind = shift+page_down=scroll_page_down
+keybind = ctrl+home=scroll_to_top
+keybind = ctrl+end=scroll_to_bottom
+
+# Tab management.
+keybind = ctrl+t=new_tab
+keybind = ctrl+shift+t=new_tab
+
+# Close the current tab.
+keybind = ctrl+w=close_tab
+
+# Maximize or un-maximize the current split.
+# keybind = ctrl+shift+m=toggle_maximized
+keybind = ctrl+shift+m=toggle_split_zoom
