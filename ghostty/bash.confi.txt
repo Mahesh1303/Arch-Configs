@@ -1,0 +1,135 @@
+#
+# ~/.bashrc
+#
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+#-----------------------------------------------------------------------------
+# Bash Completion
+#-----------------------------------------------------------------------------
+# enable bash completion in interactive shells
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+    . /etc/bash_completion
+elif [ -f /usr/share/bash-completion/bash_completion ] && ! shopt -oq posix; then
+    . /usr/share/bash-completion/bash_completion
+fi     
+
+#-----------------------------------------------------------------------------
+# History and Autocompletion
+#-----------------------------------------------------------------------------
+# Appends to the history file, rather than overwriting it.
+shopt -s histappend
+
+# Don't save commands that start with a space or are duplicates.
+HISTCONTROL=ignoreboth
+
+# Set the number of commands to store in memory.
+HISTSIZE=10000
+
+# Set the number of commands to store in the history file.
+HISTFILESIZE=20000
+
+#-----------------------------------------------------------------------------
+# Prompt
+#-----------------------------------------------------------------------------
+# PS1: Configures the shell prompt.
+# It sets the prompt color to bright blue and then resets it, so
+# your typed commands use the default Ghostty foreground color.
+# PS1='\[\e[1;34m\][\u@\h \W]\$ \[\e[0m\]'
+PS1='[\u@\h \W]\$ '
+
+#-----------------------------------------------------------------------------
+# General Aliases
+#-----------------------------------------------------------------------------
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+
+#-----------------------------------------------------------------------------
+# git
+#-----------------------------------------------------------------------------
+alias gint='git init'
+alias gs='git status -s'
+alias gcl='git clone'
+alias ga='git add'
+alias gaa='git add .'
+alias gc='git commit -m'
+alias gac='gaa && gc'
+alias gpsh='git push origin HEAD'
+alias gpsd='git push origin dev'
+alias gpsm='git push origin main'
+alias gb='git branch'
+alias gco='git checkout'
+alias gcb='git checkout -b'
+alias gpl='git pull origin'
+alias gpld='gpl dev'
+alias gr='git remote origin'
+
+#-----------------------------------------------------------------------------
+# npm
+#-----------------------------------------------------------------------------
+alias nint='npm init --y'
+alias ni='npm install'
+alias nd='npm run dev'
+alias nb='npm run build'
+alias ns='npm run start'
+
+#-----------------------------------------------------------------------------
+# pnpm
+#-----------------------------------------------------------------------------
+alias pnit='pnpm init'
+alias pna='pnpm add'
+alias pni='pnpm install'
+alias pnd='pnpm dev'
+alias pnb='pnpm build'
+alias pns='pnpm start'
+
+#-----------------------------------------------------------------------------
+# bun
+#-----------------------------------------------------------------------------
+alias bnit='bun init'
+alias bna='bun add'
+alias bni='bun install'
+alias bnd='bun dev'
+alias bnb='bun build'
+alias bns='bun start'
+alias bpmd="bunx prisma migrate dev"
+
+#-----------------------------------------------------------------------------
+# Directory Access
+#-----------------------------------------------------------------------------
+alias ..='cd ..'
+alias ...='cd ../..'
+
+# Enable typing just the directory name to `cd` into it
+shopt -s autocd
+
+# Jump to the last visited directory
+alias back='cd -'
+
+#-----------------------------------------------------------------------------
+# ls
+#-----------------------------------------------------------------------------
+alias ls='ls --color'
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+
+
+
+
+#-----------------------------------------------------------------------------
+# System Maintenance
+#-----------------------------------------------------------------------------
+# Update the system with a single command
+update() {
+  echo "Updating Arch Linux..."
+  sudo pacman -Syu
+}
+#-----------------------------------------------------------------------------
+# ble.sh Configuration
+#-----------------------------------------------------------------------------
+# This sources the main ble.sh script that provides inline autosuggestions.
+[ -f /usr/share/blesh/ble.sh ] && source /usr/share/blesh/ble.sh
