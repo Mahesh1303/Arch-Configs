@@ -100,6 +100,11 @@ alias bpmd="bunx prisma migrate dev"
 #-----------------------------------------------------------------------------
 alias ..='cd ..'
 alias ...='cd ../..'
+alias cdW='cd Wrd'
+alias cdWA='cd ~/Wrd/AI'
+alias cdU='cd ~/Wrd/Hifi/Untangable'
+alias cdH='cd ~/Wrd/Hifi'
+
 
 # Enable typing just the directory name to `cd` into it
 shopt -s autocd
@@ -118,8 +123,6 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 
 
 
-
-
 #-----------------------------------------------------------------------------
 # System Maintenance
 #-----------------------------------------------------------------------------
@@ -128,7 +131,143 @@ update() {
   echo "Updating Arch Linux..."
   sudo pacman -Syu
 }
-#-----------------------------------------------------------------------------
+#---------
+
+netRestart() {
+  echo "Restarting NetworkManager..."
+  sudo systemctl restart NetworkManager
+}
+
+scanWifi(){
+  echo "Scanning for Wi-Fi networks..."
+  nmcli device wifi rescan
+  nmcli device wifi list
+}
+
+
+
+gstart() {
+  if [ -z "$1" ]; then
+    echo "Error: Please provide a project name."
+    echo "Usage: gstart <project_name>"
+    return 1
+  fi
+
+  local PROJECT_NAME="$1"
+  mkproject "$PROJECT_NAME"
+  cd "$PROJECT_NAME"
+  git init
+  echo "Initialized empty Git repository in $(pwd)/.git/"
+}
+# gstart myproject
+
+
+cleanup() {
+  echo "Cleaning up common build artifacts..."
+  rm -rf node_modules package-lock.json dist build .parcel-cache
+  echo "Cleanup complete!"
+}
+# cleanup
+
+up() {
+  local count=${1:-1}
+  local dir=""
+  for ((i=1; i<=count; i++)); do
+    dir="../$dir"
+  done
+  cd "$dir"
+}  
+# up 2
+
+
+
+backup() {
+  if [ -z "$1" ]; then
+    echo "Error: Please provide a file to back up."
+    echo "Usage: backup <file_name>"
+    return 1
+  fi
+
+  local FILENAME="$1"
+  local TIMESTAMP=$(date +"%Y%m%d%H%M%S")
+  local BACKUP_FILENAME="${FILENAME}_${TIMESTAMP}.bak"
+
+  if [ -f "$FILENAME" ]; then
+    cp "$FILENAME" "$BACKUP_FILENAME"
+    echo "Backup created: $BACKUP_FILENAME"
+  else
+    echo "Error: File '$FILENAME' not found."
+  fi
+}
+# backup myfile.txt
+
+
+killport() {
+  if [ -z "$1" ]; then
+    echo "Error: Please provide a port number."
+    echo "Usage: killport <port_number>"
+    return 1
+  fi
+
+  local PORT_NUMBER="$1"
+  local PID=$(lsof -t -i:"$PORT_NUMBER")
+
+  if [ -n "$PID" ]; then
+    echo "Killing process on port $PORT_NUMBER (PID: $PID)..."
+    kill "$PID"
+    echo "Process killed."
+  else
+    echo "No process found on port $PORT_NUMBER."
+  fi
+}
+# killport 3000
+
+
+
+my-ip() {
+  echo "Getting your IP addresses..."
+  # Public IP
+  echo "Public IP: $(curl -s ifconfig.me)"
+  # Local IP (using 'ip' for a cleaner output)
+  echo "Local IP(s):"
+  ip -4 addr | grep -oP '(?<=inet\s)\d+(\.\d+){3}'
+}
+# my-ip
+
+
+
+find-live-hosts() {
+  echo "Scanning for live hosts on the local network..."
+  sudo nmap -sn 192.168.1.0/24
+}
+# find-live-hosts
+
+
+
+
+system-performance-summary() {
+  echo "Generating System Performance Summary..."
+  echo "----------------------------------------"
+
+  echo "### CPU Usage ###"
+  top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print "CPU Idle: " $1 "%"}'
+
+  echo ""
+  echo "### Memory Usage ###"
+  free -h | awk 'NR==2{printf "Used: %s\nFree: %s\n", $3, $4}'
+  
+  echo ""
+  echo "### Disk Usage ###"
+  df -h / | awk 'NR==2{printf "Used: %s\nFree: %s\n", $3, $4}'
+
+  echo ""
+  echo "### Top 5 Processes by Memory ###"
+  ps aux --sort=-%mem | awk 'NR<=6 {print $0}'
+
+}
+# system-performance-summary
+
+--------------------------------------------------------------------
 # ble.sh Configuration
 #-----------------------------------------------------------------------------
 # This sources the main ble.sh script that provides inline autosuggestions.
