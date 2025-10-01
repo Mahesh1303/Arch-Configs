@@ -1,0 +1,94 @@
+# -----------------------------------------------------
+# CUSTOMIZATION
+# -----------------------------------------------------
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+ZSH_THEME="powerlevel10k/powerlevel10k"
+
+# -----------------------------------------------------
+# oh-myzsh themes: https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+# -----------------------------------------------------
+# ZSH_THEME=robbyrussell
+
+# -----------------------------------------------------
+# oh-myzsh plugins
+# -----------------------------------------------------
+
+# CRITICAL FIX: Removed plugins that were causing the "not found" errors,
+# as we will source them manually below.
+
+
+plugins=(
+    git
+    sudo
+    web-search
+    archlinux
+    copyfile
+    copybuffer
+    dirhistory
+    colored-man-pages
+    command-not-found
+)
+
+# Set-up oh-my-zsh
+
+
+source $ZSH/oh-my-zsh.sh
+
+if [ -f /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+  source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+fi
+
+if [ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+  source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=4'
+
+
+# -----------------------------------------------------
+# Set-up FZF key bindings (CTRL R for fuzzy history finder)
+# -----------------------------------------------------
+source <(fzf --zsh)
+
+# zsh history
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt appendhistory
+
+
+eval "$(zoxide init zsh)"
+eval $(thefuck --alias)
+eval $(thefuck --alias fk)
+
+
+
+# -----------------------------------------------------
+# Prompt
+# -----------------------------------------------------
+# eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/zen.toml)"
+# eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/EDM115-newline.omp.json)"
+
+# Shipped Theme
+# eval "$(oh-my-posh init zsh --config /usr/share/oh-my-posh/themes/agnoster.omp.json)"
+
+
+# -----------------------------------------------------
+# MANUAL PLUGIN SOURCING (Fixes "plugin not found" errors)
+# -----------------------------------------------------
+# These must be sourced manually because they were installed via Pacman
+# to the system path, not the OMZ plugin folder.
+
+# Syntax Highlighting (for red/green command feedback)
+# if [ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+#     source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# fi
+
+# # Autosuggestions (for faint command suggestions)
+# if [ -f /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+#     source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+# fi

@@ -1,0 +1,100 @@
+# Install
+sudo pacman -S bat
+
+# Add to main .zshrc aliases:
+alias cat='bat --style=plain'
+alias catt='bat --style=full'  # With line numbers and git diff
+
+
+# Install
+sudo pacman -S fd
+
+# Add aliases to main .zshrc:
+alias find='fd'
+alias ff='fd --type f'  # Find files only
+alias fd='fd --type d'   # Find directories only
+
+
+# Install
+sudo pacman -S zoxide
+
+# Add to end of 20-customization:
+eval "$(zoxide init zsh)"
+
+# Usage:
+z documents    # Jumps to ~/Documents or ~/Work/Documents
+zi            # Interactive directory picker
+
+
+# Install
+sudo pacman -S thefuck
+
+# Add to end of 20-customization:
+eval $(thefuck --alias)
+eval $(thefuck --alias fk)  # Shorter alias
+
+# Usage:
+$ gti status
+Command 'gti' not found
+$ fuck
+git status [enter/↑/↓/ctrl-c]
+
+
+
+
+
+
+# Directory bookmarks
+bookmark() {
+  if [ -z "$1" ]; then
+    echo "Saved bookmarks:"
+    cat ~/.bookmarks 2>/dev/null
+  else
+    echo "alias $1='cd $(pwd)'" >> ~/.bookmarks
+    source ~/.bookmarks
+    echo "Bookmark '$1' saved for $(pwd)"
+  fi
+}
+
+# Load bookmarks on startup
+[ -f ~/.bookmarks ] && source ~/.bookmarks
+
+# Usage:
+# bookmark work  → saves current dir as 'work'
+# work           → jumps to bookmarked dir
+
+
+
+# System monitoring
+alias cpu='top -o %CPU'
+alias mem='top -o %MEM'
+alias ports='netstat -tulanp'
+alias myports='ss -tulpn'
+alias listen='lsof -i -P | grep LISTEN'
+alias whatsmyip='curl -s ifconfig.me && echo'
+
+
+
+# Quick project setup
+mkdev() {
+  mkdir -p "$1" && cd "$1"
+  git init
+  echo "# $1" > README.md
+  echo "node_modules/\ndist/\n.env" > .gitignore
+  npm init -y
+  echo "Dev environment created for $1"
+}
+
+# mkdev my-new-project
+
+
+# Better autosuggestions
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
+ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+bindkey '^[[Z' autosuggest-accept  # Shift+Tab to accept suggestion
+
+
+
+# Clone Powerlevel10k into oh-my-zsh custom themes directory
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k

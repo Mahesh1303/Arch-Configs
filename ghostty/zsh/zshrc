@@ -1,0 +1,316 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+#            _
+#    _______| |__  _ __ ___
+#   |_  / __| '_ \| '__/ __|
+#  _ / /\__ \ | | | | | (__
+# (_)___|___/_| |_|_|  \___|
+#
+# -----------------------------------------------------
+# ML4W zshrc loader
+# -----------------------------------------------------
+
+# DON'T CHANGE THIS FILE
+
+# You can define your custom configuration by adding
+# files in ~/.config/zshrc
+# or by creating a folder ~/.config/zshrc/custom
+# with copies of files from ~/.config/zshrc
+# -----------------------------------------------------
+
+# -----------------------------------------------------
+# Load modular configarion
+# -----------------------------------------------------
+
+for f in ~/.config/zshrc/*; do
+    if [ ! -d $f ]; then
+        c=`echo $f | sed -e "s=.config/zshrc=.config/zshrc/custom="`
+        [[ -f $c ]] && source $c || source $f
+    fi
+done
+
+# -----------------------------------------------------
+# Load single customization file (if exists)
+# -----------------------------------------------------
+
+if [ -f ~/.zshrc_custom ]; then
+    source ~/.zshrc_custom
+fi
+
+zshaddhistory() {
+  # Check if the command (first word) exists in $PATH
+  whence ${${(z)1}[1]} >| /dev/null || return 1
+  return 0
+}
+
+# -----------------------------------------------------
+# Command Not Found Handler (via pkgfile)
+# -----------------------------------------------------
+# Load the Zsh function that uses pkgfile to suggest commands
+if [ -f /usr/share/zsh/functions/Completion/Zsh/Command/_pkgfile ]; then
+    autoload -U command-not-found
+    command_not_found_handler() {
+        _command_not_found "$1"
+    }
+fi
+
+# alias ls='ls --color=auto'
+# alias grep='grep --color=auto'
+
+# source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+# source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+
+
+# ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=4' 
+
+
+autoload -U colors && colors
+
+# Set the default colors for common Agnoster segments:
+# This often forces the gray background to a better color.
+# ZSH_THEME_PROMPT_SEGMENT_FG is foreground, ZSH_THEME_PROMPT_SEGMENT_BG is background.
+
+
+
+
+#-----------------------------------------------------------------------------
+# git
+#-----------------------------------------------------------------------------
+alias gint='git init'
+alias gs='git status -s'
+alias gcl='git clone'
+alias ga='git add'
+alias gaa='git add .'
+alias gc='git commit -m'
+alias gac='gaa && gc'
+alias gpsh='git push origin HEAD'
+alias gpsd='git push origin dev'
+alias gpsm='git push origin main'
+alias gb='git branch'
+alias gco='git checkout'
+alias gcb='git checkout -b'
+alias gpl='git pull origin'
+alias gpld='gpl dev'
+alias gr='git remote origin'
+
+#-----------------------------------------------------------------------------
+# npm
+#-----------------------------------------------------------------------------
+alias nint='npm init --y'
+alias ni='npm install'
+alias nd='npm run dev'
+alias nb='npm run build'
+alias ns='npm run start'
+
+#-----------------------------------------------------------------------------
+# pnpm
+#-----------------------------------------------------------------------------
+alias pnit='pnpm init'
+alias pna='pnpm add'
+alias pni='pnpm install'
+alias pnd='pnpm dev'
+alias pnb='pnpm build'
+alias pns='pnpm start'
+
+#-----------------------------------------------------------------------------
+# bun
+#-----------------------------------------------------------------------------
+alias bnit='bun init'
+alias bna='bun add'
+alias bni='bun install'
+alias bnd='bun dev'
+alias bnb='bun build'
+alias bns='bun start'
+alias bpmd="bunx prisma migrate dev"
+
+#-----------------------------------------------------------------------------
+# Directory Access
+#-----------------------------------------------------------------------------
+alias ..='cd ..'
+alias ...='cd ../..'
+alias cdW='cd Wrd'
+alias cdWA='cd ~/Wrd/AI'
+alias cdU='cd ~/Wrd/Hifi/Untangable'
+alias cdH='cd ~/Wrd/Hifi'
+
+
+# Enable typing just the directory name to `cd` into it
+# shopt -s autocd
+
+# Jump to the last visited directory
+alias back='cd -'
+
+#-----------------------------------------------------------------------------
+# ls
+#-----------------------------------------------------------------------------
+alias ls='exa --icons --color=auto --group-directories-first'       # Simple listing with colors and icons
+alias ll='exa -lh --icons --color=always --group-directories-first'  # Long format, human-readable, icons, always color
+alias la='exa -la --icons --git --color=always --group-directories-first' # Shows hidden files, long format, git status, icons, and color
+
+update() {
+  echo "Updating Arch Linux..."
+  sudo pacman -Syu
+}
+#---------
+
+netRestart() {
+  echo "Restarting NetworkManager..."
+  sudo systemctl restart NetworkManager
+}
+
+scanWifi(){
+  echo "Scanning for Wi-Fi networks..."
+  nmcli device wifi rescan
+  nmcli device wifi list
+}
+
+
+
+gstart() {
+  if [ -z "$1" ]; then
+    echo "Error: Please provide a project name."
+    echo "Usage: gstart <project_name>"
+    return 1
+  fi
+
+  local PROJECT_NAME="$1"
+  mkproject "$PROJECT_NAME"
+  cd "$PROJECT_NAME"
+  git init
+  echo "Initialized empty Git repository in $(pwd)/.git/"
+}
+# gstart myproject
+
+
+function cleanup() {
+  echo "Cleaning up common build artifacts..."
+  rm -rf node_modules package-lock.json dist build .parcel-cache
+  echo "Cleanup complete!"
+}
+# cleanup
+
+# up() {
+#   local count=${1:-1}
+#   local dir=""
+#   for ((i=1; i<=count; i++)); do
+#     dir="../$dir"
+#   done
+#   cd "$dir"
+# }  
+# # up 2
+
+
+
+backup() {
+  if [ -z "$1" ]; then
+    echo "Error: Please provide a file to back up."
+    echo "Usage: backup <file_name>"
+    return 1
+  fi
+
+  local FILENAME="$1"
+  local TIMESTAMP=$(date +"%Y%m%d%H%M%S")
+  local BACKUP_FILENAME="${FILENAME}_${TIMESTAMP}.bak"
+
+  if [ -f "$FILENAME" ]; then
+    cp "$FILENAME" "$BACKUP_FILENAME"
+    echo "Backup created: $BACKUP_FILENAME"
+  else
+    echo "Error: File '$FILENAME' not found."
+  fi
+}
+# backup myfile.txt
+
+
+killport() {
+  if [ -z "$1" ]; then
+    echo "Error: Please provide a port number."
+    echo "Usage: killport <port_number>"
+    return 1
+  fi
+
+  local PORT_NUMBER="$1"
+  local PID=$(lsof -t -i:"$PORT_NUMBER")
+
+  if [ -n "$PID" ]; then
+    echo "Killing process on port $PORT_NUMBER (PID: $PID)..."
+    kill "$PID"
+    echo "Process killed."
+  else
+    echo "No process found on port $PORT_NUMBER."
+  fi
+}
+# killport 3000
+
+
+
+my-ip() {
+  echo "Getting your IP addresses..."
+  # Public IP
+  echo "Public IP: $(curl -s ifconfig.me)"
+  # Local IP (using 'ip' for a cleaner output)
+  echo "Local IP(s):"
+  ip -4 addr | grep -oP '(?<=inet\s)\d+(\.\d+){3}'
+}
+# my-ip
+
+
+
+find-live-hosts() {
+  echo "Scanning for live hosts on the local network..."
+  sudo nmap -sn 192.168.1.0/24
+}
+# find-live-hosts
+
+
+
+
+system-performance-summary() {
+  echo "Generating System Performance Summary..."
+  echo "----------------------------------------"
+
+  echo "### CPU Usage ###"
+  top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print "CPU Idle: " $1 "%"}'
+
+  echo ""
+  echo "### Memory Usage ###"
+  free -h | awk 'NR==2{printf "Used: %s\nFree: %s\n", $3, $4}'
+  
+  echo ""
+  echo "### Disk Usage ###"
+  df -h / | awk 'NR==2{printf "Used: %s\nFree: %s\n", $3, $4}'
+
+  echo ""
+  echo "### Top 5 Processes by Memory ###"
+  ps aux --sort=-%mem | awk 'NR<=6 {print $0}'
+
+}
+# system-performance-summary
+
+docker-start() {
+  echo "Starting Docker service..."
+  sudo systemctl start docker
+  echo "Docker service started."
+}
+
+
+docker-stop() {
+  echo "Stopping Docker service..."
+  sudo systemctl stop docker
+  sudo systemctl stop docker.socket
+  echo "Docker service stopped."
+}
+
+
+echo1(){
+    echo "1"
+}
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
