@@ -1,0 +1,227 @@
+/* =============== GLOBAL =============== */
+
+
+/* @import '../../../../../.config/waybar/colors.css'; */
+
+/* @define-color iconcolor @color8; */
+
+
+* {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 13px;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+}
+
+/* =============== WAYBAR =============== */
+
+window#waybar {
+    background: transparent;
+}
+
+/* =============== WORKSPACES (CENTER) =============== */
+/* =============== WORKSPACES CONTAINER =============== */
+
+#workspaces {
+    margin-top: 6px;
+    padding: 4px 6px;
+    background: rgba(0, 0, 0, 0.35);
+    border-radius: 14px;
+}
+
+/* =============== WORKSPACE BUTTONS =============== */
+/* ================= WORKSPACES WHOLE CONTAINER ================= */
+
+#workspaces {
+    margin-top: 6px;
+    padding: 6px 10px;
+    background: rgba(0, 0, 0, 0.35);
+    border-radius: 18px;
+    border: 1px solid rgba(0, 255, 156, 0.25);
+}
+
+/* ================= WORKSPACE BUTTONS ================= */
+
+#workspaces button {
+    color: #8df5c4;
+    padding: 2px 12px;
+    margin: 0px 4px;
+    border-radius: 6px;
+    transition: all .2s ease;
+}
+
+/* ACTIVE */
+
+#workspaces button.active {
+
+    color: #ffffff;
+    font-weight: bold;
+
+    border-bottom: 3px solid #00ff9c;
+}
+
+/* HOVER */
+
+#workspaces button:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+}
+
+/* =============== WINDOW TITLE =============== */
+
+#window {
+    color: #a7ffd8;
+    padding-left: 12px;
+}
+
+/* =============== LEFT MODULES =============== */
+
+#custom-appmenu,
+#custom-settings,
+#custom-starter {
+    color: #8df5c4;
+    padding-left: 12px;
+}
+
+#custom-appmenu:hover,
+#custom-settings:hover {
+    color: #ffffff;
+}
+
+/* =============== RIGHT MODULES =============== */
+
+#clock,
+#battery,
+#network,
+#pulseaudio,
+#bluetooth,
+#power-profiles-daemon,
+#custom-updates {
+
+    color: #8df5c4;
+    padding: 0px 12px;
+    margin: 0px 4px;
+    border-bottom: 2px solid transparent;
+    transition: all .2s ease;
+}
+
+#clock:hover,
+#battery:hover,
+#network:hover,
+#pulseaudio:hover {
+    border-bottom: 2px solid #00ff9c;
+    color: #ffffff;
+}
+
+/* =============== POWER PROFILE STATES =============== */
+
+#power-profiles-daemon.performance {
+    color: #ff5c7c;
+}
+
+#power-profiles-daemon.balanced {
+    color: #00e0ff;
+}
+
+#power-profiles-daemon.power-saver {
+    color: #7dff9b;
+}
+
+/* =============== HARDWARE GROUP =============== */
+
+#cpu,
+#memory,
+#disk,
+#language {
+    color: #8df5c4;
+}
+
+/* =============== TRAY =============== */
+
+#tray {
+    margin-right: 14px;
+}
+
+/* =============== EXIT =============== */
+
+#custom-exit {
+    color: #ff5c7c;
+    margin-right: 12px;
+    margin-left: 10px;
+}
+
+#custom-exit:hover {
+    color: #ffffff;
+}
+
+/* =============== BATTERY CRITICAL =============== */
+
+@keyframes blink {
+    to {
+        opacity: .3;
+    }
+}
+
+#battery.critical {
+    color: #ff5c7c;
+    animation: blink 1s infinite alternate;
+}
+
+/* =============== TOOLTIP =============== */
+
+#tooltip {
+    background: #020404;
+    border: 1px solid #00ff9c;
+    color: #00ff9c;
+}
+
+/* ===== HARD RESET POWER MODULE ===== */
+#power-profiles-daemon {
+
+    padding: 2px 10px;
+    margin: 0px 6px;
+    margin-right: 14px;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+}
+
+/* AUDIO */
+#pulseaudio {
+    color: #7dcfff;
+}
+
+/* BLUETOOTH */
+#bluetooth {
+    color: #0082fc;
+}
+
+/* NETWORK WIFI */
+#network.wifi {
+    color: #00ff9c;
+}
+
+/* NETWORK ETHERNET */
+#network.ethernet {
+    color: #ffcc66;
+}
+
+/* POWER PROFILE */
+#power-profiles-daemon.performance {
+    color: #ff3b6b;
+}
+
+#power-profiles-daemon.balanced {
+    color: #00e5ff;
+}
+
+#power-profiles-daemon.power-saver {
+    color: #7dff9b;
+}
+
+/* EXIT */
+#custom-exit {
+    color: #ff3b6b;
+}

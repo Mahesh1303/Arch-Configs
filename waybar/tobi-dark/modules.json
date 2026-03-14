@@ -1,0 +1,94 @@
+{
+    "clock": {
+        "format": "{:%I:%M %p}",
+        "tooltip": true,
+        "tooltip-format": "{:%A %d %B %Y}"
+    },
+    "battery": {
+        "states": {
+            // "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": "  {capacity}%",
+        "format-plugged": "  {capacity}%",
+        "format-alt": "{icon}  {time}",
+        // "format-good": "", // An empty format will hide the module
+        // "format-full": "",
+        "format-icons": [
+            " ",
+            " ",
+            " ",
+            " ",
+            " "
+        ]
+    },
+    "network": {
+        "format-wifi": " {signalStrength}%",
+        "format-ethernet": "󰈀 {ipaddr}",
+        "format-disconnected": "⚠ offline",
+        "on-click": "alacritty -e nmtui",
+        "tooltip": true
+    },
+    "pulseaudio": {
+        "format": " {volume}%",
+        "format-muted": " muted",
+        "on-click": "pavucontrol"
+    },
+    "bluetooth": {
+        "format": "",
+        "tooltip": true,
+        "on-click": "blueman-manager"
+    },
+    "power-profiles-daemon": {
+        "format": "{icon}",
+        "format-icons": {
+            "performance": "󰓅",
+            "balanced": "󰾅",
+            "power-saver": "󰌪"
+        }
+    },
+    "custom/updates": {
+        "format": " {}",
+        "exec": "~/.config/ml4w/scripts/updates.sh",
+        "interval": 60,
+        "tooltip": false
+    },
+    "group/hardware": {
+        "orientation": "inherit",
+        "modules": [
+            "cpu",
+            "memory",
+            "disk"
+        ]
+    },
+    "custom/exit": {
+        "format": "⏻",
+        "tooltip": false,
+        "on-click": "wlogout"
+    },
+    "cpu": {
+        "format": "CPU {usage}%",
+        "interval": 3
+    },
+    "memory": {
+        "format": "RAM {}%"
+    },
+    "disk": {
+        "format": "SSD {percentage_used}%",
+        "interval": 30,
+        "path": "/"
+    },
+    "hyprland/window": {
+        "max-length": 60,
+        "rewrite": {
+            "(.*) - Brave": "$1",
+            "(.*) - Chromium": "$1",
+            "(.*) - Brave Search": "$1",
+            "(.*) - Outlook": "$1",
+            "(.*) Microsoft Teams": "$1"
+        },
+        "separate-outputs": true
+    }
+}
